@@ -1,28 +1,113 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="app-root">
+    <Login @submit="loginRequest" v-if="!isAuthenticated" />
+    <div v-else style="width:100%" class="root-pages">
+      <Index :user="user" v-if="route == 'index'" />
+      <Chat v-if="route == 'chat'" />
+      <Missions v-if="route=='missions'" />
+      <Announcements v-if="route=='announcments'" />
+    </div>
+    <NavMenu fixed v-if="isAuthenticated" :route="route" />
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { eventBus, dataBus } from "./bus";
+import { login, getProfile, getUser } from "./fetcherData";
+import Announcements from "./components/pages/Announcements";
+import Chat from "./components/pages/Chat";
+import Missions from "./components/pages/Missions";
+import Index from "./components/pages/Index";
+import Login from "./components/pages/Login";
+import NavMenu from "./components/NavMenu";
 export default {
-  name: 'app',
+  name: "App",
   components: {
-    HelloWorld
+    Announcements,
+    Chat,
+    Missions,
+    Index,
+    Login,
+    NavMenu
+  },
+  data() {
+    return {
+      isLoading: false,
+      isAuthenticated: false,
+      route: "index",
+      user: null
+    };
+  },
+  computed: {
+    fullname() {
+      return `${this.user.firstname} ${this.user.lastname}`;
+    }
+  },
+  created() {
+    if (localStorage.token) {
+      console.log(localStorage.token);
+      this.getProfileData(localStorage.token);
+    }
+    this.isLoading = false;
+
+    //Listen for page changing.
+    eventBus.$on("route", pageName => {
+      this.route = pageName;
+    });
+  },
+  methods: {
+    logout() {
+      this.isAuthenticated = false;
+      localStorage.token = "";
+      this.user = "";
+    },
+    getProfileData(token) {
+      getProfile(token, (err, response) => {
+        if (err) {
+          return;
+        }
+        this.user = response;
+        this.isAuthenticated = true;
+      });
+    },
+    loginRequest({ username, password, storeToken }) {
+      login(username, password, (err, response) => {
+        if (err) {
+          eventBus.$emit("login-failed");
+          return;
+        }
+        if (storeToken) {
+          localStorage.token = response.token;
+        }
+        this.getProfileData(response.token);
+
+        this.isAuthenticated = true;
+      });
+    }
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+#app-root > .application--wrap {
+  background-color: #eef0e5 !important;
+}
+.root-pages {
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+.root-pages > .layout {
+  min-height: 200vh;
+  animation: page-init-anim 300ms forwards;
+}
+@keyframes page-init-anim {
+  0% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
 }
 </style>
