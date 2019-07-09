@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //url address of server for fetching data from server
-const serverUrl = 'http://localhost:3000';
+const serverUrl = 'http://192.168.1.56:3000';
 
 /**
  * @param username{String}
@@ -44,4 +44,24 @@ export function getProfile(token, cb) {
  */
 export function getUser(username) {
     return username
+}
+
+/**
+ * @param qrString {String} : scanned qf string from camera
+ * @param token {String} : jsonwebtoken for authentication
+ * @param cb {Function}  : calback function
+ */
+export function verifyQrCode(qrString, token, cb) {
+    axios({
+            method: 'post',
+            url: `${serverUrl}/api/missions/qrcode`,
+            headers: {
+                'x-access-token': token || localStorage.token
+            },
+            data: {
+                scannedQrString: qrString
+            }
+        })
+        .then(response => (cb(null, response)))
+        .catch(err => (cb(err, null)));
 }

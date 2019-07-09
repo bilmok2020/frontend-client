@@ -1,6 +1,7 @@
 <template>
   <v-layout pa-3>
     <Game v-if="activeMission == 'game'" />
+    <QrCode v-if="activeMission == 'qrcode'" />
     <div style="width:100%;">
       <v-dialog v-model="dialog">
         <v-card>
@@ -65,7 +66,7 @@
 </template>
 <script>
 import Game from "../Game";
-
+import QrCode from "../QrCode";
 export default {
   data() {
     return {
@@ -74,7 +75,8 @@ export default {
     };
   },
   components: {
-    Game
+    Game,
+    QrCode
   },
   computed: {
     qrStars() {

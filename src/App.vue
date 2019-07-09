@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      isAuthenticated: true,
+      isAuthenticated: false,
       route: "",
       user: null
     };
@@ -98,7 +98,9 @@ export default {
   overflow-y: scroll;
 }
 .root-pages > .layout {
-  min-height: 200vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
   animation: page-init-anim 300ms forwards;
 }
 @keyframes page-init-anim {
