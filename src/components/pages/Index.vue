@@ -8,7 +8,6 @@
   </v-layout>
 </template>
 <script>
-import NavMenu from "../NavMenu";
 export default {
   props: {
     user: {
@@ -21,9 +20,7 @@ export default {
       drawer: true
     };
   },
-  components: {
-    NavMenu
-  },
+  components: {},
   computed: {
     rating() {
       return 4;

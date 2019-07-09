@@ -33,8 +33,8 @@ export default {
   data() {
     return {
       isLoading: false,
-      isAuthenticated: false,
-      route: "index",
+      isAuthenticated: true,
+      route: "",
       user: null
     };
   },
@@ -68,6 +68,7 @@ export default {
         }
         this.user = response;
         this.isAuthenticated = true;
+        this.route = "index";
       });
     },
     loginRequest({ username, password, storeToken }) {
