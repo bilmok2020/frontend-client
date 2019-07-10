@@ -48,13 +48,29 @@ export default {
       console.log(localStorage.token);
       this.getProfileData(localStorage.token);
     }
+    this.route = window.location.href.split("?")[1] || "index";
     this.isLoading = false;
+
+    window.addEventListener("popstate", event => {
+      if (this.route == event.state.page) {
+        return;
+      }
+      if (event.state.page == "missions") {
+        eventBus.$emit("closemission");
+      }
+      console.log(event.state.page);
+      this.route = event.state.page;
+    });
 
     //Listen for page changing.
     eventBus.$on("route", pageName => {
+      if (pageName == this.route) return;
+      history.pushState({ page: this.route }, "page " + this.route, "");
+      this.route = "";
       this.route = pageName;
     });
   },
+  mounted() {},
   methods: {
     logout() {
       this.isAuthenticated = false;
@@ -68,7 +84,6 @@ export default {
         }
         this.user = response;
         this.isAuthenticated = true;
-        this.route = "index";
       });
     },
     loginRequest({ username, password, storeToken }) {
@@ -102,6 +117,15 @@ export default {
   max-height: 100vh;
   overflow-y: scroll;
   animation: page-init-anim 300ms forwards;
+  background-color: rgb(255, 255, 255);
+}
+.v-card {
+  border-radius: 12px !important;
+  box-shadow: 1px 5px 15px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.v-card img {
+  border-radius: 4px;
 }
 @keyframes page-init-anim {
   0% {

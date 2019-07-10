@@ -1,9 +1,9 @@
 <template>
-  <v-layout pa-3>
+  <v-layout id="missions-layout" pa-3>
     <div>
       <Game v-if="activeMission == 'game'" />
       <QrCode v-if="activeMission == 'qrcode'" />
-      <div style="width:100%;">
+      <div style="width:100%; padding-bottom:35vh">
         <v-dialog v-model="dialog">
           <v-card>
             <v-card-text>
@@ -30,9 +30,9 @@
           <v-btn @click="dialog = !dialog" block>Nedir bu görevler ?</v-btn>
         </v-card>
         <br />
-        <v-card color="#FFFFEF">
+        <v-card @click=" openMisison('qrcode')" color="#FFFFEF">
           <v-layout>
-            <v-flex xs5 pa-2>
+            <v-flex xs5 ml-1 mt-3 pa-2>
               <img width="100%" height="auto" src="@/assets/qrcode.jpg" />
             </v-flex>
             <v-flex xs7>
@@ -43,40 +43,32 @@
                     class="missions-small-text"
                   >Etraftaki qr kodları bul, 3 yıldıza kadar yıldız kazan</div>
                   <div class="mt-2" style="text-align:center">
-                    <v-rating
-                      small
-                      background-color="black"
-                      dense
-                      :value="qrStars"
-                      light
-                      :length="3"
-                    ></v-rating>
+                    <v-rating background-color="black" :value="qrStars" light :length="3"></v-rating>
                   </div>
                 </div>
               </v-card-title>
             </v-flex>
           </v-layout>
-          <v-btn @click="activeMission = 'qrcode'" block>OYNA</v-btn>
         </v-card>
 
-        <v-card class="mt-4" color="#FFFFEF">
+        <v-card @click=" openMisison('game')" class="mt-4 pa-1 pt-2" color="#FFFFEF">
           <v-layout>
             <v-flex xs7>
               <v-card-title style="transform:translateY(-10px)" primary-title>
                 <div>
                   <div class="headline">OYUN</div>
-                  <div class="missions-small-text">Oyunu oyna falan filan abijim</div>
+                  <div class="missions-small-text">11 puana ulaş yıldızını kap</div>
                 </div>
-                <div>{{ gameData.gameDone ? '' : 'Tamamlanmadı' }}</div>
-                <div>Score:{{ gameData.highScore}}</div>
+                <br />
+                <br />
+                <div>Puanın: {{ gameData.highScore}}</div>
               </v-card-title>
             </v-flex>
 
-            <v-flex xs5 pa-1>
-              <img width="100%" height="auto" src="http://placekitten.com/200/200" />
+            <v-flex xs5 mt-2 mr-1 pr-1>
+              <img width="100%" height="auto" src="http://placekitten.com/200/220" />
             </v-flex>
           </v-layout>
-          <v-btn @click="activeMission = 'game'" block>OYNA</v-btn>
         </v-card>
       </div>
     </div>
@@ -85,6 +77,7 @@
 <script>
 import Game from "../Game";
 import QrCode from "../QrCode";
+import { eventBus } from "../../bus";
 export default {
   data() {
     return {
@@ -96,6 +89,22 @@ export default {
     Game,
     QrCode
   },
+  created() {
+    eventBus.$on("closemission", e => {
+      this.activeMission = "";
+      console.log("aaaa geldi event");
+    });
+  },
+  methods: {
+    openMisison(mission) {
+      history.pushState(
+        {},
+        "page " + window.location.href.split("?")[1],
+        window.location.href.split("?")[0] + "?active-mission"
+      );
+      this.activeMission = mission;
+    }
+  },
   computed: {
     qrStars() {
       return 2;
@@ -105,7 +114,7 @@ export default {
     },
     gameData() {
       return {
-        highScore: 4213,
+        highScore: 7,
         gameDone: false
       };
     }
@@ -124,5 +133,9 @@ export default {
   position: fixed;
   background-color: rgba(0, 128, 0, 0.219);
   z-index: 44;
+}
+
+#missions-layout {
+  background: #f8c5c1;
 }
 </style>

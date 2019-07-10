@@ -2,62 +2,52 @@
   <v-layout>
     <v-list style="width:100%" two-line>
       <template v-for="(item, index) in items">
-        <v-list-tile :key="item.title" avatar ripple @click="toggle(index)">
+        <v-list-tile :key="item.title" avatar ripple @click="modal = index">
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-            <v-list-tile-sub-title class="text--primary">{{ item.headline }}</v-list-tile-sub-title>
+            <v-list-tile-title class="text--primary">{{ item.title }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
           </v-list-tile-content>
-
           <v-list-tile-action>
             <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
-            <v-icon v-if="selected.indexOf(index) < 0" color="grey lighten-1">star_border</v-icon>
-
-            <v-icon v-else color="yellow darken-2">star</v-icon>
           </v-list-tile-action>
         </v-list-tile>
         <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+        <SimpleModal @close="modal = -1" v-if="modal == index" :key="index">
+          <template v-slot:header>{{item.title}}</template>
+          <slot>{{item.subtitle}}</slot>
+        </SimpleModal>
       </template>
     </v-list>
   </v-layout>
 </template>
 
 <script>
+import SimpleModal from "../SimpleModal";
 export default {
+  components: {
+    SimpleModal
+  },
   data: () => ({
     selected: [2],
+    modal: -1,
     items: [
       {
         action: "15 min",
-        headline: "Brunch this weekend?",
-        title: "Ali Connors",
+        title: "Görev",
         subtitle:
-          "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
+          "Oyunun heyecanını arttırmak için qr kodların konumları değiştirildi. Aramaya devam..."
       },
       {
         action: "2 hr",
-        headline: "Summer BBQ",
-        title: "me, Scrott, Jennifer",
-        subtitle: "Wish I could come, but I'm out of town this weekend."
+        title: "Etkinlik",
+        subtitle:
+          "Bugün'ün ikinci konuşması Fatih Akın'ın reactive javascript konuşması, teknik sebeblerden ötürü 25dakika geç başlyacaktır"
       },
       {
         action: "6 hr",
-        headline: "Oui oui",
-        title: "Sandra Adams",
-        subtitle: "Do you have Paris recommendations? Have you ever been?"
-      },
-      {
-        action: "12 hr",
-        headline: "Birthday gift",
-        title: "Trevor Hansen",
+        title: "Sistem",
         subtitle:
-          "Have any ideas about what we should get Heidi for her birthday?"
-      },
-      {
-        action: "18hr",
-        headline: "Recipe to try",
-        title: "Britta Holt",
-        subtitle:
-          "We should eat this: Grate, Squash, Corn, and tomatillo Tacos."
+          "Chat sunucularında oluşan teknik bir sorundan dolayı chat sistemi kısa süreliğine devre dışı bırakılmıştır. anlayışınız için teşkekür ederim"
       }
     ]
   }),
