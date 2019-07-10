@@ -54,6 +54,9 @@ export default {
       .catch(function(e) {
         console.error(e);
       });
+  },
+  destroyed(){
+    this.scanner.stop();
   }
 };
 </script>
