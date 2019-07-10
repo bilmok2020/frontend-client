@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //url address of server for fetching data from server
-const serverUrl = 'http://10.48.85.22:3000';
+const serverUrl = 'http://192.168.1.59:3000';
 
 /**
  * @param username{String}
