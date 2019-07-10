@@ -98,9 +98,12 @@ export default {
   methods: {
     openMisison(mission) {
       history.pushState(
-        {},
-        "page " + window.location.href.split("?")[1],
-        window.location.href.split("?")[0] + "?active-mission"
+        { page: "active-mission" },
+        "page " + window.location.href.split("?")[1]
+      );
+      history.pushState(
+        { page: "active-mission" },
+        "page " + window.location.href.split("?")[1]
       );
       this.activeMission = mission;
     }

@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      isAuthenticated: true,
+      isAuthenticated: false,
       route: "",
       user: null
     };
@@ -55,18 +55,21 @@ export default {
       if (this.route == event.state.page) {
         return;
       }
-      if (event.state.page == "missions") {
-        eventBus.$emit("closemission");
-      }
       console.log(event.state.page);
-      this.route = event.state.page;
+
+      if (event.state.page == "active-mission") {
+        eventBus.$emit("closemission");
+        this.route = "missions";
+        console.log("hi");
+        return;
+      }
+      this.route = "index";
     });
 
     //Listen for page changing.
     eventBus.$on("route", pageName => {
       if (pageName == this.route) return;
       history.pushState({ page: this.route }, "page " + this.route, "");
-      this.route = "";
       this.route = pageName;
     });
   },
