@@ -26,7 +26,7 @@ export default {
     handleWindowResize() {
       this.window = {
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight - 40
       };
     }
   },
@@ -417,7 +417,7 @@ export default {
           p.x -= this.dx;
 
           // if the pipes go beyond canvas, we delete them from the array
-          if (p.x + this.w <= 0) {
+          if (p.x + this.w <= 20) {
             this.position.shift();
             score.value += 1;
             SCORE_S.play();

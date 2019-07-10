@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      isAuthenticated: false,
+      isAuthenticated: true,
       route: "",
       user: null
     };

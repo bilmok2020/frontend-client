@@ -10,6 +10,7 @@ const serverUrl = 'http://192.168.1.59:3000';
  */
 export function login(username, password, cb) {
     return axios.post(`${serverUrl}/api/users/login`, {
+
         username,
         password
     }).then(response => {
@@ -25,10 +26,10 @@ export function login(username, password, cb) {
  */
 export function getProfile(token, cb) {
     return axios.get(`${serverUrl}/api/users/profile`, {
-            headers: {
-                'x-access-token': token,
-            }
-        })
+        headers: {
+            'x-access-token': token,
+        }
+    })
         .then(response => {
             cb(null, response.data)
         })
@@ -53,15 +54,15 @@ export function getUser(username) {
  */
 export function verifyQrCode(qrString, token, cb) {
     axios({
-            method: 'post',
-            url: `${serverUrl}/api/missions/qrcode`,
-            headers: {
-                'x-access-token': token || localStorage.token
-            },
-            data: {
-                scannedQrString: qrString
-            }
-        })
+        method: 'post',
+        url: `${serverUrl}/api/missions/qrcode`,
+        headers: {
+            'x-access-token': token || localStorage.token
+        },
+        data: {
+            scannedQrString: qrString
+        }
+    })
         .then(response => (cb(null, response)))
         .catch(err => (cb(err, null)));
 }
