@@ -22,6 +22,9 @@
 </template>
 
 <style>
+p {
+  margin: 0px;
+}
 </style>
 <script>
 export default {
