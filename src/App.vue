@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      isAuthenticated: false,
+      isAuthenticated: true,
       route: "",
       user: null
     };
@@ -128,7 +128,7 @@ export default {
 }
 
 .v-card img {
-  border-radius: 4px;
+  border-radius: 12px;
 }
 @keyframes page-init-anim {
   0% {
