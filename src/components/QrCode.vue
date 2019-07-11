@@ -1,12 +1,10 @@
 <template>
   <div class="missions-section qr-video-wrapper">
-    <div>
+    <div width="100vw">
       <video width="100%" height="auto" autoplay playsinline id="qrRead"></video>
     </div>
     <v-snackbar v-model="showSnackbar" :top="true">{{snackbarText}}</v-snackbar>
-    <pre>
-        {{log}}
-    </pre>
+    <p>{{log}}</p>
   </div>
 </template>
 
@@ -43,7 +41,7 @@ export default {
     Instascan.Camera.getCameras()
       .then(cameras => {
         this.log.push(cameras);
-        if (cameras.length > 6) {
+        if (cameras.length > 1) {
           this.scanner.start(cameras[1]);
         } else if (cameras.length > 0) {
           this.scanner.start(cameras[0]);
@@ -55,7 +53,7 @@ export default {
         console.error(e);
       });
   },
-  destroyed(){
+  destroyed() {
     this.scanner.stop();
   }
 };

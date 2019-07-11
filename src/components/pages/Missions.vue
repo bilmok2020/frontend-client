@@ -24,7 +24,7 @@
               style="text-align:center !important; width: 100%"
             >8 yıldızdan {{starCount}} tanesini tamamladın</div>
             <div style="transform:translateY(12px); width:100%; text-align:center">
-              <v-rating :value="starCount" :length="8" background-color="red" dense></v-rating>
+              <v-rating :value="starCount" readonly :length="8" background-color="red" dense></v-rating>
             </div>
           </v-card-title>
           <v-btn @click="dialog = !dialog" block>Nedir bu görevler ?</v-btn>
@@ -32,8 +32,8 @@
         <br />
         <v-card @click=" openMisison('qrcode')" color="#FFFFEF">
           <v-layout>
-            <v-flex xs5 ml-1 mt-3 pa-2>
-              <img width="100%" height="auto" src="@/assets/qrcode.jpg" />
+            <v-flex xs5 pa-1>
+              <img width="100%" height="100%" src="@/assets/qrcode.jpg" />
             </v-flex>
             <v-flex xs7>
               <v-card-title style="transform:translateY(-10px)" primary-title>
@@ -59,14 +59,13 @@
                   <div class="headline">OYUN</div>
                   <div class="missions-small-text">11 puana ulaş yıldızını kap</div>
                 </div>
-                <br />
-                <br />
-                <div>Puanın: {{ gameData.highScore}}</div>
+
+                <div class="mt-2">Puanın: {{ gameData.highScore}}</div>
               </v-card-title>
             </v-flex>
 
-            <v-flex xs5 mt-2 mr-1 pr-1>
-              <img width="100%" height="auto" src="http://placekitten.com/200/220" />
+            <v-flex xs5 pr-1>
+              <img width="100%" height="100%" src="http://placekitten.com/200/220" />
             </v-flex>
           </v-layout>
         </v-card>
