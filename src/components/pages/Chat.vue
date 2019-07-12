@@ -26,17 +26,23 @@ p {
   margin: 0px;
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+
+import io from 'socket.io-client';
 export default {
   data: () => ({
     message: "Hey!",
     messages: [],
-    userColors: {}
+    userColors: {},
+    socket : io('localhost:4235')
   }),
 
   methods: {
-    sendMessage() {
-      this.messages.push({
+    sendMessage(e) {
+      e.preventDefault(); // preventing reloading the page
+      this.socket.emit('chat message', {
         author: "me",
         content: this.message
       });
@@ -59,13 +65,10 @@ export default {
     var container = this.$el.querySelector("#chat-wrapper");
     container.scrollTop = container.scrollHeight + 200;
   },
-  created() {
-    setInterval(() => {
-      this.messages.push({
-        author: "you",
-        content: this.message
+  mounted() {
+    this.socket.on('chat message', (data) => {
+          this.messages.push(data);
       });
-    }, 2500);
   },
   watch: {
     messages(old) {
