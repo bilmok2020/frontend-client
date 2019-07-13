@@ -27,23 +27,23 @@ p {
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
 
 import io from 'socket.io-client';
+import {dataBus} from '../../bus';
 export default {
   data: () => ({
     message: "Hey!",
     messages: [],
     userColors: {},
-    socket : io('localhost:4235')
+    socket: io('localhost:4235')
   }),
 
   methods: {
-    sendMessage(e) {
-      e.preventDefault(); // preventing reloading the page
+    sendMessage() {
+      console.log(dataBus.user);
       this.socket.emit('chat message', {
-        author: "me",
+        author: dataBus.user.firstname + " " + dataBus.user.lastname.substring(0,1).toUpperCase() + ".",
         content: this.message
       });
       this.clearMessage();
@@ -65,7 +65,7 @@ export default {
     var container = this.$el.querySelector("#chat-wrapper");
     container.scrollTop = container.scrollHeight + 200;
   },
-  mounted() {
+  created() {
     this.socket.on('chat message', (data) => {
           this.messages.push(data);
       });

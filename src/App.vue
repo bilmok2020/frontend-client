@@ -86,6 +86,7 @@ export default {
           return;
         }
         this.user = response;
+        dataBus.user = response;
         this.isAuthenticated = true;
       });
     },
