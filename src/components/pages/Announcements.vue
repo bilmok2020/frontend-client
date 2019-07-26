@@ -1,8 +1,16 @@
 <template>
   <v-layout>
-    <v-list style="width:100%" two-line>
+    <v-list style="background-color:#FFA726;width:100%" two-line>
       <template v-for="(item, index) in items">
-        <v-list-tile :key="item.title" avatar ripple @click="modal = index">
+        <v-list-tile
+          light
+          expand
+          style="background-color:#FB8C00"
+          :key="item.title"
+          avatar
+          ripple
+          @click="modal = index"
+        >
           <v-list-tile-content>
             <v-list-tile-title class="text--primary">{{ item.title }}</v-list-tile-title>
             <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>

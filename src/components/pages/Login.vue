@@ -18,7 +18,7 @@
         outline
       ></v-text-field>
 
-      <v-checkbox v-model="checkbox" label="Beni hatırla"></v-checkbox>
+      <v-checkbox color="orange" v-model="checkbox" label="Beni hatırla"></v-checkbox>
       <div>
         <v-btn :color="'dark-orange'" dark :block="true" :disabled="!valid" @click="submit">Giriş</v-btn>
       </div>

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { highScoreUpdate } from "../fetcherData";
 export default {
   data() {
     return {
@@ -253,6 +254,7 @@ export default {
             this.y = cvs.height - fg.h - this.h / 2;
             if (state.current == state.game) {
               state.current = state.over;
+              birdDie();
               DIE.play();
             }
           }
@@ -400,6 +402,7 @@ export default {
             bird.y - bird.radius < p.y + this.h
           ) {
             state.current = state.over;
+            birdDie();
             HIT.play();
           }
           // BOTTOM PIPE
@@ -410,6 +413,7 @@ export default {
             bird.y - bird.radius < bottomPipeYPos + this.h
           ) {
             state.current = state.over;
+            birdDie();
             HIT.play();
           }
 
@@ -421,10 +425,6 @@ export default {
             this.position.shift();
             score.value += 1;
             SCORE_S.play();
-            if (score.value == 20) {
-              // user.game.easteregg = true yapacak.
-              document.getElementById("code").innerHTML = "HELAL";
-            }
             score.best = Math.max(score.value, score.best);
             localStorage.setItem("best", score.best);
           }
@@ -494,6 +494,12 @@ export default {
       frames++;
 
       requestAnimationFrame(loop);
+    }
+    function sendServer(highscore) {
+      highScoreUpdate(highscore);
+    }
+    function birdDie() {
+      sendServer(score.best);
     }
 
     loop();

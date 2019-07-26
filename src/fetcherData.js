@@ -20,6 +20,7 @@ export function login(username, password, cb) {
     });
 }
 
+
 /**
  * @param token{String} : Jsonwebtoken for authentication.
  * @returns {Promise} : When promise is resolved, returns  
@@ -61,6 +62,20 @@ export function verifyQrCode(qrString, token, cb) {
         },
         data: {
             scannedQrString: qrString
+        }
+    })
+        .then(response => (cb(null, response)))
+        .catch(err => (cb(err, null)));
+}
+export function highScoreUpdate(highScore, token, cb) {
+    axios({
+        method: 'post',
+        url: `${serverUrl}/api/missions/game`,
+        headers: {
+            'x-access-token': token || localStorage.token
+        },
+        data: {
+            userHighScore: highScore
         }
     })
         .then(response => (cb(null, response)))

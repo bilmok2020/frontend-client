@@ -30,7 +30,7 @@
           <v-btn @click="dialog = !dialog" block>Nedir bu görevler ?</v-btn>
         </v-card>
         <br />
-        <v-card @click=" openMisison('qrcode')" color="#FFFFEF">
+        <v-card @click=" openMisison('qrcode')" color="#EF9A9A">
           <v-layout>
             <v-flex xs5 pa-1>
               <img width="100%" height="100%" src="@/assets/qrcode.jpg" />
@@ -51,13 +51,13 @@
           </v-layout>
         </v-card>
 
-        <v-card @click=" openMisison('game')" class="mt-4 pa-1 pt-2" color="#FFFFEF">
+        <v-card @click=" openMisison('game')" class="mt-4 pa-1 pt-2" color="#EF9A9A">
           <v-layout>
             <v-flex xs7>
               <v-card-title style="transform:translateY(-10px)" primary-title>
                 <div>
                   <div class="headline">OYUN</div>
-                  <div class="missions-small-text">11 puana ulaş yıldızını kap</div>
+                  <div class="missions-small-text">15 puana ulaş yıldızını kap</div>
                 </div>
 
                 <div class="mt-2">Puanın: {{ gameData.highScore}}</div>
@@ -65,7 +65,11 @@
             </v-flex>
 
             <v-flex xs5 pr-1>
-              <img width="100%" height="100%" src="http://placekitten.com/200/220" />
+              <img
+                width="100%"
+                height="100%"
+                src="https://indirabi.com/wp-content/uploads/2018/03/flappy-bird-apk-indir-75x75.png"
+              />
             </v-flex>
           </v-layout>
         </v-card>
@@ -76,7 +80,7 @@
 <script>
 import Game from "../Game";
 import QrCode from "../QrCode";
-import { eventBus } from "../../bus";
+import { eventBus, dataBus } from "../../bus";
 export default {
   data() {
     return {
@@ -112,11 +116,11 @@ export default {
       return 2;
     },
     starCount() {
-      return 3;
+      return dataBus.user.starCount;
     },
     gameData() {
       return {
-        highScore: 7,
+        highScore: dataBus.user.game.highScore,
         gameDone: false
       };
     }
